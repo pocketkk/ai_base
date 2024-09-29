@@ -1,0 +1,9 @@
+# Gemfile
+
+source 'https://rubygems.org'
+
+gem 'json'
+gem 'redis'
+gem 'pg'
+gem 'docker-api'
+gem 'fileutils'

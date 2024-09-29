@@ -59,8 +59,6 @@ begin
 
       tell_mother("Text to speech: #{text}")
 
-      text.gsub!(/jarvis/i, '')
-
       response = AwsPollyService.new(@nanny).convert_text_to_speech(text, voice)
       publish_response(response)
     rescue => e

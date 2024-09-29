@@ -41,8 +41,8 @@ class AgentUI
   def play_audio
     require 'fileutils'
 
-    watch_folder = "/home/pocketkk/ai/agents/swarm/audio_out"
-    played_folder = "/home/pocketkk/ai/agents/swarm/audio_out/played"
+    watch_folder = "audio_out"
+    played_folder = "audio_out/played"
 
     # Create played_folder if it doesn't exist
     Dir.mkdir(played_folder) unless File.exist?(played_folder)

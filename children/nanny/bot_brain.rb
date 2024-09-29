@@ -1,5 +1,6 @@
 #bot_brain.rb
 require_relative 'nanny'
+require 'fileutils'
 
 module Nanny
   class BotBrain
@@ -7,16 +8,24 @@ module Nanny
       @bot_id = bot_id
       @bot = bot
       @history = []
+      ensure_history_directory
+    end
+
+    def ensure_history_directory
+      history_dir = "/app/history/#{@bot_id}"
+      FileUtils.mkdir_p(history_dir) unless Dir.exist?(history_dir)
     end
 
     def remember(entry)
       @history << entry
 
       # create file if it doesn't exist
-      File.open("/app/history/#{@bot_id}/conversation.txt", 'w') unless File.exist?("/app/history/#{@bot_id}/conversation.txt")
+      ensure_history_directory
+      history_file = "/app/history/#{@bot_id}/conversation.txt"
+      File.open(history_file, 'w') unless File.exist?(history_file)
 
-      # append to history file /app/#{bot_id}.txt
-      File.open("/app/history/#{@bot_id}/conversation.txt", 'a') { |f| f.write("#{entry}\n") }
+      # append to history file
+      File.open(history_file, 'a') { |f| f.write("#{entry}\n") }
 
       true
     rescue => e

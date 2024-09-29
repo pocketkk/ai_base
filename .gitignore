@@ -1,2 +1,5 @@
 logs/
 .rubocop.yml
+audio_in/
+audio_out/
+history/

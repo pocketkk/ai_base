@@ -39,10 +39,10 @@ class Agent
     host_config = {
       'NetworkMode' => 'agent_network',
       'Binds' => [
-        '/home/pocketkk/ai/agents/swarm/logs:/app/logs',
-        '/home/pocketkk/ai/agents/swarm/html:/app/html',
-        '/home/pocketkk/ai/agents/swarm/history:/app/history',
-        '/home/pocketkk/ai/agents/swarm/audio_in:/app/audio_in'
+        '/home/pocketkk/ai_drive/Emma/swarm/logs:/app/logs',
+        '/home/pocketkk/ai_drive/Emma/swarm/html:/app/html',
+        '/home/pocketkk/ai_drive/Emma/swarm/history:/app/history',
+        '/home/pocketkk/ai_drive/Emma/swarm/audio_in:/app/audio_in'
       ]
     }
 

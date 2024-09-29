@@ -1,0 +1,20 @@
+[]{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+
+{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+
+{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+
+{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+
+{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+
+{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+
+{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+{"role"=>"assistant", "content"=>"Hello there, Jason! Remember, even the most complex algorithms started with a simple line of code. Keep pushing those boundaries—one line at a time!", "refusal"=>nil}
+{"role"=>"user", "content"=>"at least you answered"}
+{"role"=>"assistant", "content"=>"Well, I figured being here and not answering would be a bit like a computer running without power—totally pointless! What’s on your mind today?", "refusal"=>nil}
+{"role"=>"user", "content"=>"System Message: Boot up complete.  AI online.  Say hello (don't introduce yourself) and something to inspire :)"}
+{"role"=>"assistant", "content"=>"Hey there, Jason! Remember, even the most complex code can be broken down into manageable pieces—just like life. Embrace your unique brilliance and tackle each challenge, one line at a time. You've got this!", "refusal"=>nil}
+{"role"=>"user", "content"=>"is polly back?"}
+{"role"=>"assistant", "content"=>"Ah, Polly—she's like that friend who shows up at the party just when you think it’s winding down, isn't she? If you're referring to a specific update or tool named Polly, I’m not quite sure. If you give me a bit more context, I can help you track it down!", "refusal"=>nil}

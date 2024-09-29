@@ -27,8 +27,11 @@ module Nanny
       @history = history
       @model = model
       uri = URI(API_ENDPOINT)
+      puts "uri: #{uri}"
       request = create_request(uri, message)
+      puts "request: #{request}"
       response = send_request(uri, request)
+      puts "response: #{response.body}"
 
       parse(response)
     end
@@ -63,8 +66,7 @@ module Nanny
       request.body = JSON.dump({
         'model' => model,
         'messages' => messages,
-        'tools' => functions,
-        'temperature' => 0.5,
+        'temperature' => 1,
         'max_tokens'=> 500,
       })
 

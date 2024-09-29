@@ -48,9 +48,9 @@ class AgentManager
         'HostConfig' => {
           'NetworkMode' => 'agent_network',
           'Binds' => [
-            '/home/pocketkk/ai/agents/swarm/logs:/app/logs',
-            '/home/pocketkk/ai/agents/swarm/history:/app/history',
-            '/home/pocketkk/ai/agents/swarm/audio_out:/app/audio_out',
+            '/home/pocketkk/ai_drive/Emma/swarm/logs:/app/logs',
+            '/home/pocketkk/ai_drive/Emma/swarm/history:/app/history',
+            '/home/pocketkk/ai_drive/Emma/swarm/audio_out:/app/audio_out',
             '/tmp/.pulse-socket:/tmp/.pulse-socket'
           ],
           'Devices' => [
@@ -161,7 +161,7 @@ class AgentManager
 
   def rebuild_container(agent)
     image_name = agent.image
-    Docker::Image.build_from_dir("#{agent.name}_bot", { 't' => image_name }) do |v|
+    Docker::Image.build_from_dir("children/#{agent.name}_bot", { 't' => image_name }) do |v|
       json = JSON.parse(v) rescue {}
       if json.key?('stream')
         @logger.info(json['stream'])
@@ -172,6 +172,9 @@ class AgentManager
       end
     end
   end
+
+
+
 
   def rebuild_if_changed(agent)
     current_checksum = agent.bot_files_checksum
@@ -184,5 +187,17 @@ class AgentManager
     else
       @logger.info("No changes detected for #{agent.name}. Skipping rebuild.")
     end
+  end
+
+
+
+
+  def rebuild_if_changed(agent)
+    current_checksum = agent.bot_files_checksum
+    @logger.info("Current checksum for #{agent.name}: #{current_checksum}")
+    @logger.info("Forcing rebuild for testing purposes...")
+    rebuild_container(agent)
+    @checksums[agent.name] = current_checksum
+    @logger.info("Rebuild complete for #{agent.name}.")
   end
 end

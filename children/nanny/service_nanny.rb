@@ -42,6 +42,8 @@ module Nanny
     end
 
     OPEN_AI_MODELS = %w(
+      gpt-4o-mini
+      gpt-4o
       gpt-3.5-turbo-16k
       gpt-3.5-turbo
       gpt-4
@@ -54,13 +56,15 @@ module Nanny
     def chat(
       message:,
       history: [],
-      model: 'gpt-3.5-turbo-16k',
+      model: 'gpt-4o-mini',
       system: 'you are a helpful ai agent',
       functions: [],
       return_functions: false
     )
 
+      tell_mother("I'm seeing this model:  #{model}")
       response = if OPEN_AI_MODELS.include?(model)
+                   tell_mother("OpenAI Models chosen")
                    @openai_chat_service.chat(
                      message: message,
                      history: history,
@@ -70,6 +74,7 @@ module Nanny
                      return_functions: return_functions
                    )
                  elsif LOCAL_MODELS.include?(model)
+                   tell_mother("Local Models chosen")
                    @ooga_chat_service.chat(
                      message: message,
                      history: history,

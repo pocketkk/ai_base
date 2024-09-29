@@ -17,7 +17,7 @@ class Agent
                 :event_types,
                 :image
 
-  def initialize(name:, color: 1, channel_name: '', icon: '', event_types: [], container: nil, image: nil, ports: nil)
+  def initialize(name:, color: 1, channel_name: '', icon: '', event_types: [], container: nil, image: nil, ports: nil, logger: nil)
     @color = color
     @channel_name = channel_name
     @name = name
@@ -30,11 +30,13 @@ class Agent
     @messages = messages
     @previous_message = ''
     @icon = icon
+    @logger = logger
     @build_path = "/path/to/#{name}_bot"  # Ensure the path to the bot’s directory is correct
   end
 
 
   def container_by_name
+    @logger.info "Container name: #{@container}" if @logger
 
     host_config = {
       'NetworkMode' => 'agent_network',

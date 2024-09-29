@@ -30,7 +30,7 @@ def build_containers(path, last_update_time)
 
     if File.directory?(dir)
       # If no file in the directory was modified since the last update, skip this directory
-      last_modified = Dir.glob("#{dir}/**/*").map { |f| File.mtime(f) }.max
+      last_modified = Dir.glob("#{dir}/**/*").map { |f| File.mtime(f) }.max || Time.now
       next if last_modified < last_update_time && !nanny_changed?(last_update_time)
 
       if nanny_changed?(last_update_time)

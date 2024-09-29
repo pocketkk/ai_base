@@ -81,9 +81,10 @@ class AgentUI
 
   def icon_for_agent(agent)
     return '🤖' if agent == 'mother'
+    agent_name = agent.is_a?(Agent) ? agent.name : agent
 
-    logger.info("Looking for icon for agent: #{agent}")
-    found_agent = agent_manager.agents.select { |a| a.name.to_s == agent }.first
+    logger.info("Looking for icon for agent: #{agent_name}")
+    found_agent = agent_manager.agents.select { |a| a.name.to_s == agent_name }.first
 
     return agent unless found_agent
 
@@ -92,9 +93,10 @@ class AgentUI
 
   def color_for_agent(agent)
     return 2 if agent == 'mother'
+    agent_name = agent.is_a?(Agent) ? agent.name : agent
 
-    logger.info("Looking for color for agent: #{agent}")
-    found_agent = agent_manager.agents.select { |a| a.name.to_s == agent }.first
+    logger.info("Looking for color for agent: #{agent_name}")
+    found_agent = agent_manager.agents.select { |a| a.name.to_s == agent_name }.first
 
     return 1 unless found_agent
 
@@ -130,6 +132,8 @@ class AgentUI
         elsif user_input.start_with?("/start ")
           agent_name = user_input.split('/start ')[-1]
           process_start_command(agent_name)
+        elsif user_input.start_with?("/create_hello_bot")
+          create_hello_bot
         else
           @redis.publish('openai_chat', { type: :user_input, agent: 'mother', message: user_input}.to_json)
         end
@@ -192,6 +196,47 @@ class AgentUI
         end
       end
     end
+  end
+
+  def create_hello_bot
+    hello_bot_code = {
+      "Dockerfile" => <<~DOCKERFILE,
+        FROM ruby:3.0.2
+        WORKDIR /app
+        COPY . .
+        RUN bundle install
+        CMD ["ruby", "hello_bot.rb"]
+      DOCKERFILE
+      
+      "Gemfile" => <<~GEMFILE,
+        source 'https://rubygems.org'
+        gem 'json'
+        gem 'redis'
+        gem 'pg'
+      GEMFILE
+      
+      "hello_bot.rb" => <<~HELLOBOT
+        require 'json'
+        require 'redis'
+        require 'pg'
+
+        def main
+          puts "Hello, World! This is a new bot."
+        end
+
+        main
+      HELLOBOT
+    }
+
+    bot_event = {
+      type: 'agent_input',
+      message: 'create hello-bot',
+      bot_name: 'hello',
+      bot_code: hello_bot_code
+    }
+    @redis.publish('bot_builder', bot_event.to_json)
+
+    @logger.info('Triggered BuilderBot to create and start the Hello World bot.')
   end
 
   def process_event(event)

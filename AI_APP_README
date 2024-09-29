@@ -1,0 +1,115 @@
+# Multi-Agent AI System
+
+This AI App is a modular and scalable framework designed for managing various agents that perform specific tasks. 
+The system employs a centralized "mother" system to orchestrate these agents, each running in isolated Docker containers.
+The setup utilizes Redis for inter-agent communication and PostgreSQL for data storage.
+The agents can interact with external APIs such as OpenAI, AWS, and third-party news services.
+
+## Directory Structure
+
+### /home/pocketkk/ai/agents/swarm/
+- Root directory of the project
+
+### /children/
+- Contains individual agent implementations
+  - **news_bot/**: Agent for fetching and parsing news articles.
+
+### /nanny/
+- Shared library used by all agents.
+  - **nanny_bot.rb**: Base class for all agent bots.
+  - **service_nanny.rb**: Provides shared services like logging, database access, and API calls.
+
+### /mother/
+- Central management system and user interface.
+  - **mother.rb**: Main entry point that initializes the user interface and agent manager.
+  - **agent_manager.rb**: Manages Docker containers for each agent.
+  - **agent_ui.rb**: Handles user interactions and routes commands to the appropriate agent.
+  - **agent.rb**: Defines the structure and behavior of an individual agent.
+  - **chat_writer.rb**: Handles writing chat messages in the UI.
+  - **windows/**: Contains UI components for the text-based interface.
+    - **windows/main.rb**: Manages the primary UI window and interactions.
+    - **windows/agents.rb**: Displays the status of the agents.
+    - **windows/chat.rb**: Manages the chat interface.
+    - **windows/input.rb**: Manages the input window.
+    - **windows/frame.rb**: Creates framed windows for consistent UI elements.
+    - **windows/manager.rb**: Manages the overall layout and different windows in the text-based UI.
+
+## Key Components
+
+### Agent Management
+
+- **AgentManager**
+  - Manages the lifecycle of agent containers.
+  - Handles building, starting, stopping, and checking for file changes of containers.
+  - Located in `mother/agent_manager.rb`.
+
+### User Interface
+
+- **AgentUI**
+  - Handles user input and coordinates actions between different agents.
+  - Routes commands to start, stop, or restart agents and ensures rebuild if files have changed.
+  - Located in `mother/agent_ui.rb`.
+- **Windows::Manager**
+  - Manages different windows in the text-based UI.
+  - Responsible for rendering the main window, agent status window, chat window, and input window.
+  - Located in `windows/manager.rb`.
+
+### Shared Services
+
+- **ServiceNanny**
+  - Provides common functionalities like logging, accessing databases, and API interactions.
+  - Located in `nanny/service_nanny.rb`.
+
+### Agents
+
+- **NannyBot**
+  - Base class that provides foundational methods for all bots.
+  - Located in `nanny/nanny_bot.rb`.
+- **OpenAIChatBot**
+  - Implements a chatbot using OpenAI's API.
+  - Located in `nanny/openai_chat_bot.rb`.
+- **AwsPollyBot**
+  - Converts text to speech using AWS Polly.
+  - Located in `nanny/aws_polly_bot.rb`.
+
+### Architecture
+
+This modular architecture allows for straightforward addition of new features and agents. Here's a brief overview of the main architectural components:
+
+- **Docker**: Each agent runs in its container, offering isolation and scalability.
+- **Redis**: Used for pub/sub messaging between agents.
+- **PostgreSQL**: Database used for data persistence.
+- **External APIs**: Integrations with OpenAI, AWS, and various other services.
+
+### Adding New Features and Agents
+
+#### Create a New Agent
+
+1. **Create a New Directory:**
+   - Create a new directory under `/children/` for your agent's implementation.
+
+2. **Extend the Base Class:**
+   - Extend the base class `NannyBot` located in `nanny/nanny_bot.rb` to leverage shared functionality.
+
+3. **Implement the Agent:**
+   - Implement the specific functionality for your agent inside the new directory.
+
+#### Update Agent Manager
+
+1. **Add the Agent to AgentManager:**
+   - Update the `AgentManager` class in `mother/agent_manager.rb` to handle the lifecycle of your new agent.
+   - Ensure the agent is incorporated in the methods for starting, stopping, and rebuilding containers.
+
+#### Test the System
+
+1. **Build and Ensure Functionality:**
+   - Ensure your agent container builds correctly using Docker.
+   - Verify that the new agent subscribes to necessary Redis channels for inter-agent communication.
+
+2. **Run Unit Tests:**
+   - Write unit tests if applicable and run them to ensure the functionality of your agent.
+   
+3. **Monitor and Log:**
+   - Use logs to monitor the activities of the agent and debug any issues.
+
+By following these guidelines, you can effectively manage and extend the capabilities of the Multi-Agent AI System.

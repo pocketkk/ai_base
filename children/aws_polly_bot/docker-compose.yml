@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  openai_chat_bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - agent_network
+
+networks:
+  agent_network:
